@@ -1,0 +1,29 @@
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: nextapp
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: container
+      MaxScale: 1
+      MinScale: 0
+      SpecializationTimeout: 0
+      TargetCPUPercent: 1
+    StrategyType: execution
+  environment:
+    name: ""
+    namespace: ""
+  functionTimeout: 30
+  idletimeout: 1
+  onceOnly: true
+  package: {}
+  podspec:
+    containers:
+      - image: fission/next-sample-app:1.0.0
+        name: nextapp
+        ports:
+          - containerPort: 3000
+            name: http-env
+    terminationGracePeriodSeconds: 1

@@ -1,0 +1,25 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  name: nextapp
+spec:
+  createingress: true
+  ingressconfig:
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "5s" # Wait for 5 seconds to establish a connection
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "5s" # Wait for 5 seconds for the server to send data
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "5s" # Timeout for sending data to the server
+      nginx.ingress.kubernetes.io/proxy-next-upstream: "timeout" # Retry on timeout
+      nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "0" # Retry indefinitely (no limit on retries)
+      nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "5s" # Wait for 5 seconds per retry
+      nginx.ingress.kubernetes.io/proxy-buffering: "off" # Disable buffering to avoid slow responses
+    host: 'fbi.com'
+    path: /nextapp
+  functionref:
+    name: nextapp
+    type: name
+  keepPrefix: true
+  methods:
+    - GET
+  prefix: /nextapp
