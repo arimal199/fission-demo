@@ -14,7 +14,7 @@ spec:
   resources: {}
   runtime:
     container:
-      name: ""
+      name: "fission-python-backend"
       resources: {}
     image: fission-python-backend
   version: 3
